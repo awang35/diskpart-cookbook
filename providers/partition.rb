@@ -70,10 +70,15 @@ end
 action :format do
   number = @new_resource.disk_number
   fs = @new_resource.fs
+  unit = @new_resource.unit
   updated = false
 
   unless formatted?(number)
-    format(number, fs)
+    if unit.nil?
+      format(number, fs)
+    else
+      format_with_unit(number, fs, unit)
+    end
     sleep(@new_resource.sleep)
     updated = true
   end
@@ -165,8 +170,18 @@ def format(disk, fs)
   volume_number = new_resource.volume_number ||
     get_volume_info(disk)[:volume_number]
 
-  Chef::Log.debug("Formatting disk #{disk}, Volume #{volume_number} with file system #{fs.to_s}")
+  Chef::Log.info("Formatting disk #{disk}, Volume #{volume_number} with file system #{fs.to_s}")
   setup_script("select disk #{disk}\nselect volume #{volume_number}\nformat fs=#{fs.to_s} quick")
+  cmd = shell_out(diskpart, { :returns => [0] })
+  check_for_errors(cmd, 'DiskPart successfully formatted the volume', true)
+end
+
+def format_with_unit(disk, fs, unit)
+  volume_number = new_resource.volume_number ||
+    get_volume_info(disk)[:volume_number]
+
+  Chef::Log.info("Formatting disk #{disk}, Volume #{volume_number} with file system #{fs.to_s} and unit of #{unit.to_s}")
+  setup_script("select disk #{disk}\nselect volume #{volume_number}\nformat fs=#{fs.to_s} unit=#{unit.to_s} quick")
   cmd = shell_out(diskpart, { :returns => [0] })
   check_for_errors(cmd, 'DiskPart successfully formatted the volume', true)
 end

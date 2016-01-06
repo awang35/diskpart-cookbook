@@ -26,7 +26,7 @@ attribute :align, :kind_of => Integer, :default => 1024
 attribute :fs, :kind_of => Symbol, :default => :ntfs
 attribute :letter, :kind_of => String, :name_attribute => true
 attribute :sleep, :kind_of => Integer, :default => 1
-attribute :unit, :kind_of => Integer, :default => 4096
+attribute :unit, :kind_of => String, :default => '4096'
 attribute :size, :kind_of => Integer, :default => 1
 
 default_action :create
