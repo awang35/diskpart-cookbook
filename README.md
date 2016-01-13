@@ -56,6 +56,7 @@ diskpart\_partition
 - :extend: Extends the partition to all free space
 - :create_primary: Creates a primary partition
 
+
 ### Attribute Parameters
 
 - :disk_number: The disk number to operate on
@@ -64,4 +65,4 @@ diskpart\_partition
 - :letter: The drive letter to use
 - :sleep: The amount of time to sleep after executing command (default is 1)
 - :size: The size in Mb the partition will have (default is 1)
-
+- :unit: The unit the drive will have (default is 4096)

@@ -1,0 +1,11 @@
+DEPENDENCIES
+  diskpart
+    path: .
+    metadata: true
+
+GRAPH
+  chef_handler (1.2.0)
+  diskpart (0.1.4)
+    windows (>= 0.0.0)
+  windows (1.38.4)
+    chef_handler (>= 0.0.0)
